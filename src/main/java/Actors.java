@@ -3,62 +3,120 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.HttpURLConnection;
-public class Actors {
-    public static final String API_KEY = "Your API_KEY";   // TODO --> add your api key about Actors here
-    String netWorth;
+import java.util.ArrayList;
+import java.util.Arrays;
+import org.json.JSONObject;
+import org.json.JSONArray;
+
+public class Actors
+{
+    public static final String API_KEY = "6naYoRCtkPYmFCvTbFSHvyV9QYFjxflblctZYdDq"; //api key received from api-ninjas
+    double netWorth;
     Boolean isAlive;
+    String dateOfDeath;
+    String nationality;
+    ArrayList<String> occupations;
 
-    public Actors(String netWorth, boolean isAlive){
-        //TODO --> (Write a proper constructor using the get_from_api functions)
+    public Actors(double netWorth, boolean isAlive, String nationality) { //constructor function for alive actors
+        this.netWorth = netWorth;
+        this.isAlive = isAlive;
+        this.nationality = nationality;
     }
-    @SuppressWarnings({"deprecation"})
+
+    public Actors(double netWorth, boolean isAlive, String nationality, String dateOfDeath) { //constructor function for dead actors
+        this.netWorth = netWorth;
+        this.isAlive = isAlive;
+        this.nationality = nationality;
+        this.dateOfDeath = dateOfDeath;
+    }
+
+    public Actors(double netWorth, boolean isAlive, String nationality, String dateOfDeath, ArrayList<String> occupations) { //constructor function for actors with occupation
+        this.netWorth = netWorth;
+        this.isAlive = isAlive;
+        this.nationality = nationality;
+        this.dateOfDeath = dateOfDeath;
+        this.occupations = occupations;
+    }
+
     /**
-     * Retrieves data for the specified actor.
+     * retrieves data for the specified actor.
      * @param name for which Actor should be retrieved
-     * @return a string representation of the Actors info or null if an error occurred
-     */
-    public String getActorData(String name) {
+     * @return a string representation of the actors info or null if an error occurred
+    */
+
+    public String getActorData(String name)
+    {
         try {
-            URL url = new URL("https://api.api-ninjas.com/v1/celebrity?name="+
-                    name.replace(" ", "+")+"&apikey="+API_KEY);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestProperty("X-Api-Key", API_KEY);
-            System.out.println(connection);
-            if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
-                BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                String inputLine;
-                StringBuilder response = new StringBuilder();
+            URL url = new URL("https://api.api-ninjas.com/v1/celebrity?name=" + name.replace(" ", "+") + "&apikey=" + API_KEY);
 
-                while ((inputLine = in.readLine()) != null) {
-                    response.append(inputLine);
-                }
+            HttpURLConnection Url = (HttpURLConnection) url.openConnection(); //opens a connection to the url created using the actor name and the api
+            Url.setRequestProperty("X-Api-Key", API_KEY); //sets the authorization request property of the url connection
 
-                in.close();
-                return response.toString();
-            } else {
-                return "Error: " + connection.getResponseCode() + " " + connection.getResponseMessage();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(Url.getInputStream())); //creates a reader to read the input stream from the url connection
+
+            String line;
+            StringBuilder stringBuilder = new StringBuilder();
+
+            while ((line = reader.readLine()) != null) { //reads each line of the response and appends it to the stringbuilder
+                    stringBuilder.append(line);
             }
-        } catch (IOException e) {
+            reader.close(); //closes the reader once all lines have been read
+
+            stringBuilder.deleteCharAt(0);
+            stringBuilder.deleteCharAt(stringBuilder.length() - 1);
+
+            String response = stringBuilder.toString(); //converts the stringbuilder to a string and assigns it to response
+
+            if (response == "") { //check if the response is empty
+                return "Error: Actor not found.";
+            }
+            return response;
+        }
+        catch (IOException e) {
             e.printStackTrace();
             return null;
         }
     }
-    public double getNetWorthViaApi(String actorsInfoJson){
-        //TODO --> (This function must return the "NetWorth")
-        double result = 0.0;
-        return result;
+
+    public double getNetWorthViaApi(String actorsInfoJson)
+    {
+        JSONObject netWorthJsonObject = new JSONObject(actorsInfoJson); //parses the json string into a json object
+        double netWorthStr = netWorthJsonObject.getDouble("net_worth"); //creates a double and gets the value of net-worth field
+
+        try { //returns the net-worth amount
+            return netWorthStr;
+        }
+        catch (Exception e) { //handles any possible errors
+            System.err.println("Error: " + e.getMessage());
+        }
+        return 0; //returns 0 if net-worth field is not found or cannot be parsed
     }
 
-    public boolean isAlive(String actorsInfoJson){
-        //TODO --> (If your chosen actor is alive it must return true otherwise it must return false)
-        boolean statues = false;
-        return statues;
+    public boolean isAlive(String actorsInfoJson)
+    {
+        JSONObject isAliveJsonObject = new JSONObject(actorsInfoJson); //parses the json string into a json object
+        boolean isAlive = isAliveJsonObject.getBoolean("is_alive"); //creates a boolean and gets the content of is-alive field
+
+        try { //return the is-alive content
+            return isAlive;
+        }
+        catch (Exception e) {
+            System.err.println("Error: " + e.getMessage());
+        }
+        return true; //returns true if is-alive field is not found
     }
 
-    public String getDateOfDeathViaApi(String actorsInfoJson){
-        //TODO --> (If your chosen actor is deceased it must return the date of death)  -->
-        String date = "";
-        return date;
-    }
+    public String getDateOfDeathViaApi(String actorsInfoJson)
+    {
+        JSONObject deathJsonObject = new JSONObject(actorsInfoJson); //parses the json string into a json object
+        String dateOfDeath = deathJsonObject.getString("death"); //creates a string and gets the content of death field
 
+        try { //return the date of death string
+            return dateOfDeath;
+        }
+        catch (Exception e) {
+            System.err.println("Error: " + e.getMessage());
+        }
+        return null; //returns null if death field is not found
+    }
 }
