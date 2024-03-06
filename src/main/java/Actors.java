@@ -119,4 +119,33 @@ public class Actors
         }
         return null; //returns null if death field is not found
     }
+
+    public String getNationalityViaApi(String actorsInfoJson)
+    {
+        JSONObject nationalityJsonObject = new JSONObject(actorsInfoJson); //parses the json string into a json object
+        String nationality = nationalityJsonObject.getString("nationality"); //creates a string and gets the content of nationality field
+
+        try { //return the nationality string
+            return nationality;
+        }
+        catch (Exception e) {
+            System.err.println("Error: " + e.getMessage());
+        }
+        return null; //returns null if death field is not found
+    }
+
+    public String getOccupationsViaApi(String movieInfoJson)
+    {
+        JSONObject occupationsJsonObject = new JSONObject(movieInfoJson); //parses the json string into a json object
+
+        JSONArray occupationsArray = occupationsJsonObject.getJSONArray("occupation");
+        String[] occupationsList = new String[occupationsArray.length()];
+
+        for (int i = 0; i < occupationsArray.length(); i++) { //extract each rating from the jsonarray and put it into the ratings array
+            occupationsList[i] = occupationsArray.getString(i); //extracts strings one by one and adds them to the string array
+
+            occupationsList[i].replaceAll("_", " "); //replaces underline characters with space
+        }
+        return Arrays.toString(occupationsList); //converts the array to string and returns it
+    }
 }
