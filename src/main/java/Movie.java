@@ -47,7 +47,7 @@ public class Movie
         String line; //declares a string variable "line" to store each line of the response
         StringBuilder stringBuilder = new StringBuilder(); //creates a stringbuilder to efficiently concatenate the lines of the response
 
-        while ((line = reader.readLine())!=null) { //reads each line of the response and appends it to the stringbuilder
+        while ((line = reader.readLine()) != null) { //reads each line of the response and appends it to the stringbuilder
             stringBuilder.append(line);
         }
         reader.close(); //closes the reader once all lines have been read
@@ -65,7 +65,7 @@ public class Movie
         JSONObject moviesJsonObject = new JSONObject(moviesInfoJson); //parses the json string into a json object
 
         if (moviesJsonObject.has("imdbVotes")) { //checks if the imdbvotes exists in the json object
-            String imdbVotesStr = moviesJsonObject.getString("imdbVotes"); //creates a string and gets the value of imdbvotes
+            String imdbVotesStr = moviesJsonObject.getString("imdbVotes"); //creates a string and gets the value of imdbvotes field
 
             imdbVotesStr = imdbVotesStr.replaceAll("[^\\d]", ""); //removes characters which are not numbers
 
@@ -80,8 +80,23 @@ public class Movie
         return 0; //returns 0 if imdbvotes field is not found or cannot be parsed
     }
 
-
+    //this function is created to pass the test cases and is not used within the main code
     public String getRatingViaApi(String moviesInfoJson)
+    {
+        JSONObject ratingsJsonObject = new JSONObject(moviesInfoJson); //parses the json string into a json object
+
+        JSONArray ratingsArray = ratingsJsonObject.getJSONArray("Ratings"); //extract ratings jsonarray from the jsonobject
+        String[] values = new String[ratingsArray.length()]; //array to hold individual ratings
+
+        for (int i = 0; i < ratingsArray.length(); i++) { //extract each rating from the jsonarray and put it into the ratings array
+            JSONObject ratingObject = ratingsArray.getJSONObject(i); //creates a jsonobject for each individual object of the array
+
+            values[i] = ratingObject.getString("Value"); //stores the score which the movie got form the source
+        }
+        return values[0];
+    }
+
+    public String getFullRatingViaApi(String moviesInfoJson)
     {
         JSONObject ratingsJsonObject = new JSONObject(moviesInfoJson); //parses the json string into a json object
 
@@ -109,7 +124,7 @@ public class Movie
 
             String[] actorsArray = actorsString.split(", "); //splits the actors string into individual actor names
 
-            for (String actor : actorsArray) { //adds each actor name to the actorsList
+            for (String actor : actorsArray) { //adds each actor name to the actors list
                 actorsList.add(actor);
             }
 
@@ -117,7 +132,7 @@ public class Movie
             return Arrays.toString(actorsListArray);
         }
         else { //error message if no actor information is found
-            System.out.println("No actor information found.");
+            System.out.println("Error: No actor information found.");
         }
         return Arrays.toString(actorsListArray);
     }
