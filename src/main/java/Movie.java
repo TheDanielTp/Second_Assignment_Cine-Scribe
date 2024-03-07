@@ -11,18 +11,18 @@ import org.json.JSONArray;
 public class Movie
 {
     public static final String API_KEY = "520cf7ab"; //api key received from omdbapi
-    int ImdbVotes;
+    String ImdbVotes;
     ArrayList<String> actorsList;
     String rating;
     String[] ratings;
 
-    public Movie(ArrayList<String> actorsList, String rating, int ImdbVotes) { //constructor function for initializing the object
+    public Movie(ArrayList<String> actorsList, String rating, String ImdbVotes) { //constructor function for initializing the object
         this.actorsList = actorsList;
         this.rating = rating; //inputs a single string
         this.ImdbVotes = ImdbVotes;
     }
 
-    public Movie(ArrayList<String> actorsList, String[] ratings, int ImdbVotes) { //constructor function for finalizing the object
+    public Movie(ArrayList<String> actorsList, String[] ratings, String ImdbVotes) { //constructor function for finalizing the object
         this.actorsList = actorsList;
         this.ratings = ratings; //inputs an array of strings
         this.ImdbVotes = ImdbVotes;
@@ -60,24 +60,64 @@ public class Movie
         return response;
     }
 
+    public String getTitleViaApi(String movieInfoJson)
+    {
+        JSONObject titleJsonObject = new JSONObject(movieInfoJson); //parses the json string into a json object
+        String title = titleJsonObject.getString("Title"); //creates a string and gets the content of title field
+
+        try { //return the title string
+            return title;
+        }
+        catch (Exception e) {
+            System.err.println("Error: " + e.getMessage());
+        }
+        return null; //returns null if death field is not found
+    }
+
+    //this function is created to pass the test cases and is not used within the main code
     public int getImdbVotesViaApi(String moviesInfoJson)
     {
-        JSONObject moviesJsonObject = new JSONObject(moviesInfoJson); //parses the json string into a json object
+        JSONObject imdbJsonObject = new JSONObject(moviesInfoJson); //parses the json string into a json object
+        String imdbVotesStr = imdbJsonObject.getString("imdbVotes"); //creates a string and gets the content of imdbvotes field
 
-        if (moviesJsonObject.has("imdbVotes")) { //checks if the imdbvotes exists in the json object
-            String imdbVotesStr = moviesJsonObject.getString("imdbVotes"); //creates a string and gets the value of imdbvotes field
+        imdbVotesStr = imdbVotesStr.replaceAll("[^\\d]", ""); //removes characters which are not numbers
 
-            imdbVotesStr = imdbVotesStr.replaceAll("[^\\d]", ""); //removes characters which are not numbers
-
-            try { //parse the imdbvotes string to an integer
-                int imdbVotesInt = Integer.parseInt(imdbVotesStr);
-                return imdbVotesInt;
-            }
-            catch (NumberFormatException e) { //handles any possible errors
-                System.err.println("Error parsing IMDB votes: " + e.getMessage());
-            }
+        try { //parse the imdbvotes string to an integer
+            int imdbVotesInt = Integer.parseInt(imdbVotesStr);
+            return imdbVotesInt;
+        }
+        catch (NumberFormatException e) { //handles any possible errors
+            System.err.println("Error parsing IMDB votes: " + e.getMessage());
         }
         return 0; //returns 0 if imdbvotes field is not found or cannot be parsed
+    }
+
+    public String getFullImdbVotesViaApi(String movieInfoJson)
+    {
+        JSONObject imdbJsonObject = new JSONObject(movieInfoJson); //parses the json string into a json object
+        String imdbVotes = imdbJsonObject.getString("imdbVotes"); //creates a string and gets the content of box-office field
+
+        try { //return the box-office string
+            return imdbVotes;
+        }
+        catch (Exception e) {
+            System.err.println("Error: " + e.getMessage());
+        }
+        return null; //returns null if death field is not found
+    }
+
+    public String getBoxOfficeViaApi(String movieInfoJson)
+    {
+        JSONObject boxOfficeJsonObject = new JSONObject(movieInfoJson); //parses the json string into a json object
+        String boxOffice = boxOfficeJsonObject.getString("BoxOffice"); //creates a string and gets the content of box-office field
+
+        try { //return the box-office string
+            return boxOffice;
+        }
+        catch (Exception e) {
+            System.err.println("Error: " + e.getMessage());
+        }
+        return null; //returns null if death field is not found
     }
 
     //this function is created to pass the test cases and is not used within the main code
@@ -114,6 +154,34 @@ public class Movie
         return Arrays.toString(ratings);
     }
 
+    public String getCountryViaApi(String movieInfoJson)
+    {
+        JSONObject countryJsonObject = new JSONObject(movieInfoJson); //parses the json string into a json object
+        String country = countryJsonObject.getString("Country"); //creates a string and gets the content of country field
+
+        try { //return the country string
+            return country;
+        }
+        catch (Exception e) {
+            System.err.println("Error: " + e.getMessage());
+        }
+        return null; //returns null if death field is not found
+    }
+
+    public String getLanguageViaApi(String movieInfoJson)
+    {
+        JSONObject languageJsonObject = new JSONObject(movieInfoJson); //parses the json string into a json object
+        String language = languageJsonObject.getString("Language"); //creates a string and gets the content of language field
+
+        try { //return the language string
+            return language;
+        }
+        catch (Exception e) {
+            System.err.println("Error: " + e.getMessage());
+        }
+        return null; //returns null if death field is not found
+    }
+
     public String getActorListViaApi(String movieInfoJson)
     {
         JSONObject actorsJsonObject = new JSONObject(movieInfoJson); //parses the json string into a json object
@@ -135,5 +203,89 @@ public class Movie
             System.out.println("Error: No actor information found.");
         }
         return Arrays.toString(actorsListArray);
+    }
+
+    public String getDirectorViaApi(String movieInfoJson)
+    {
+        JSONObject directorJsonObject = new JSONObject(movieInfoJson); //parses the json string into a json object
+        String director = directorJsonObject.getString("Director"); //creates a string and gets the content of director field
+
+        try { //return the director string
+            return director;
+        }
+        catch (Exception e) {
+            System.err.println("Error: " + e.getMessage());
+        }
+        return null; //returns null if death field is not found
+    }
+
+    public String getWriterViaApi(String movieInfoJson)
+    {
+        JSONObject writerJsonObject = new JSONObject(movieInfoJson); //parses the json string into a json object
+        String writer = writerJsonObject.getString("Writer"); //creates a string and gets the content of writer field
+
+        try { //return the writer string
+            return writer;
+        }
+        catch (Exception e) {
+            System.err.println("Error: " + e.getMessage());
+        }
+        return null; //returns null if death field is not found
+    }
+
+    public String getPlotViaApi(String movieInfoJson)
+    {
+        JSONObject plotJsonObject = new JSONObject(movieInfoJson); //parses the json string into a json object
+        String plot = plotJsonObject.getString("Plot"); //creates a string and gets the content of plot field
+
+        try { //return the plot string
+            return plot;
+        }
+        catch (Exception e) {
+            System.err.println("Error: " + e.getMessage());
+        }
+        return null; //returns null if death field is not found
+    }
+
+    public String getGenreViaApi(String movieInfoJson)
+    {
+        JSONObject genreJsonObject = new JSONObject(movieInfoJson); //parses the json string into a json object
+        String genre = genreJsonObject.getString("Genre"); //creates a string and gets the content of genre field
+
+        try { //return the genre string
+            return genre;
+        }
+        catch (Exception e) {
+            System.err.println("Error: " + e.getMessage());
+        }
+        return null; //returns null if death field is not found
+    }
+
+    public String getYearViaApi(String movieInfoJson)
+    {
+        JSONObject yearJsonObject = new JSONObject(movieInfoJson); //parses the json string into a json object
+        String year = yearJsonObject.getString("Released"); //creates a string and gets the content of year field
+
+        try { //return the year string
+            return year;
+        }
+        catch (Exception e) {
+            System.err.println("Error: " + e.getMessage());
+        }
+        return null; //returns null if death field is not found
+    }
+
+    public String getRunTimeViaApi(String movieInfoJson)
+    {
+        JSONObject runTimeJsonObject = new JSONObject(movieInfoJson); //parses the json string into a json object
+        String runTime = runTimeJsonObject.getString("Runtime"); //creates a string and gets the content of runTime field
+
+        try { //return the runTime string
+            return runTime;
+        }
+        catch (Exception e) {
+            System.err.println("Error: " + e.getMessage());
+        }
+        return null; //returns null if death field is not found
     }
 }
