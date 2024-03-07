@@ -47,13 +47,13 @@ public class Main
         System.out.print("Enter the title of the movie: ");
         String movieTitle = scanner.nextLine(); //recieves the title of the movie
 
-        Movie movie = new Movie(new ArrayList<>(), "", ""); //creates an object of movie class with null inputs
+        Movie movie = new Movie(new ArrayList<>(), "", 0); //creates an object of movie class with null inputs
         try {
             String movieInfoJson = movie.getMovieData(movieTitle); //parse json and extract necessary information
             String title = movie.getTitleViaApi(movieInfoJson); //calls the gettitle function from movie class
 
-            String imdbVotes = movie.getFullImdbVotesViaApi(movieInfoJson); //calls the getimdbvotes function from movie class
-            String genre = movie.getGenreViaApi(movieInfoJson); //calls the getgenre function from movie class
+            String imdbVotes = movie.getFullImdbVotesViaApi(movieInfoJson); //calls the getfullimdbvotes function from movie class
+            int imdbVotesInt = movie.getImdbVotesViaApi(movieInfoJson); //calls the getimdbvotes function from movie class
 
             String year = movie.getYearViaApi(movieInfoJson); //calls the getyear function from movie class
             String runTime = movie.getRunTimeViaApi(movieInfoJson); //calls the getruntime function from movie class
@@ -71,8 +71,9 @@ public class Main
             String actorList = movie.getActorListViaApi(movieInfoJson); //calls the getactorlist function from movie class
 
             String boxOffice = movie.getBoxOfficeViaApi(movieInfoJson); //calls the getboxoffice function from movie class
+            String genre = movie.getGenreViaApi(movieInfoJson); //calls the getgenre function from movie class
 
-            movie = new Movie(actorsList, ratings, imdbVotes); //redefines the movie object with the new information
+            movie = new Movie(actorsList, ratings, imdbVotesInt); //redefines the movie object with the new information
 
             System.out.println(); //prints out movie's information
             System.out.println("Movie Title: " + title);
