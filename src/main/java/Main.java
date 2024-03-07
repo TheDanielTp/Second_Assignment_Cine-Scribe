@@ -47,24 +47,47 @@ public class Main
         System.out.print("Enter the title of the movie: ");
         String movieTitle = scanner.nextLine(); //recieves the title of the movie
 
-        Movie movie = new Movie(new ArrayList<>(), "", 0); //creates an object of movie class with null inputs
+        Movie movie = new Movie(new ArrayList<>(), "", ""); //creates an object of movie class with null inputs
         try {
             String movieInfoJson = movie.getMovieData(movieTitle); //parse json and extract necessary information
-            System.out.println(movieInfoJson);
+            String title = movie.getTitleViaApi(movieInfoJson); //calls the gettitle function from movie class
 
-            int imdbVotes = movie.getImdbVotesViaApi(movieInfoJson); //calls the getimdbvotes function from movie class
+            String imdbVotes = movie.getFullImdbVotesViaApi(movieInfoJson); //calls the getimdbvotes function from movie class
+            String genre = movie.getGenreViaApi(movieInfoJson); //calls the getgenre function from movie class
+
+            String year = movie.getYearViaApi(movieInfoJson); //calls the getyear function from movie class
+            String runTime = movie.getRunTimeViaApi(movieInfoJson); //calls the getruntime function from movie class
+
             String ratings = movie.getFullRatingViaApi(movieInfoJson); //calls the getratings function from movie class
+            String director = movie.getDirectorViaApi(movieInfoJson); //calls the getdirector function from movie class
+
+            String writer = movie.getWriterViaApi(movieInfoJson); //calls the getwriter function from movie class
+            String plot = movie.getPlotViaApi(movieInfoJson); //calls the getplot function from movie class
+
+            String country = movie.getCountryViaApi(movieInfoJson); //calls the getcountry function from movie class
+            String language = movie.getLanguageViaApi(movieInfoJson); //calls the getlanguage function from movie class
 
             ArrayList<String> actorsList = new ArrayList<>(); //creates a string array to store actors names
-            String actorList = movie.getActorListViaApi(movieInfoJson); //calls the actorlist function from movie class
+            String actorList = movie.getActorListViaApi(movieInfoJson); //calls the getactorlist function from movie class
+
+            String boxOffice = movie.getBoxOfficeViaApi(movieInfoJson); //calls the getboxoffice function from movie class
 
             movie = new Movie(actorsList, ratings, imdbVotes); //redefines the movie object with the new information
 
             System.out.println(); //prints out movie's information
-            System.out.println("Movie Title: " + movieTitle);
-            System.out.println("IMDB Rating: " + ratings);
-            System.out.println("IMDB Votes: " + movie.ImdbVotes);
+            System.out.println("Movie Title: " + title);
+            System.out.println("Released: " + year);
+            System.out.println("Runtime: " + runTime);
+            System.out.println("Genre: " + genre);
+            System.out.println("Director: " + director);
+            System.out.println("Writer: " + writer);
             System.out.println("Actors: " + actorList);
+            System.out.println("Plot: " + plot);
+            System.out.println("Country: " + country);
+            System.out.println("Language: " + language);
+            System.out.println("Ratings: " + ratings);
+            System.out.println("IMDB Votes: " + movie.ImdbVotes);
+            System.out.println("BoxOffice: " + boxOffice);
         }
         catch (IOException e) { //handles any possible errors
             System.out.println("Error: " + e.getMessage());
@@ -83,8 +106,11 @@ public class Main
             double netWorth = actor.getNetWorthViaApi(actorsInfoJson); //calls the getnetworth function from actor class
             boolean isAlive = actor.isAlive(actorsInfoJson); //calls the isalive function from actor class
 
-            String nationality = actor.getNationalityViaApi(actorsInfoJson);
-            String occupations = actor.getOccupationsViaApi(actorsInfoJson);
+            String nationality = actor.getNationalityViaApi(actorsInfoJson); //calls the getnationality function from actor class
+            String occupations = actor.getOccupationsViaApi(actorsInfoJson); //calls the getoccupations function from actor class
+
+            String birthday = actor.getBirthdayViaApi(actorsInfoJson); //calls the getbirhday function from actor class
+            double height = actor.getHeightViaApi(actorsInfoJson); //calls the getheight function from actor class
 
             String dateOfDeath = ""; //creates a string to store the date of death if the actor is dead
 
@@ -101,6 +127,8 @@ public class Main
             System.out.println("Net-Worth: " + actor.netWorth);
             System.out.println("Nationality: " + actor.nationality);
             System.out.println("Occupations: " + occupations);
+            System.out.println("Height: " + height);
+            System.out.println("Birthday: " + birthday);
             System.out.println("Is-Alive: " + actor.isAlive);
 
             if (isAlive == false) { //prints date of death only if the actor is dead
