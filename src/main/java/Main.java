@@ -7,7 +7,7 @@ public class Main
 {
     public static void main(String[] args)
     {
-        runMenu(); //directly attends to the runmenu function
+        runMenu(); //directly attends to runmenu function
     }
 
     public static void runMenu()
@@ -50,6 +50,16 @@ public class Main
         Movie movie = new Movie(new ArrayList<>(), "", 0); //creates an object of movie class with null inputs
         try {
             String movieInfoJson = movie.getMovieData(movieTitle); //parse json and extract necessary information
+            String response = movie.getResponseViaApi(movieInfoJson); //checks if the entered title was valid
+
+            while (response.contains("False")) { //while the entered title is invalid, asks the user to input a new title
+                System.err.print("Error: Invalid title. Enter the title of the movie again: ");
+
+                movieTitle = scanner.nextLine(); //recieves the title of the movie again
+                movieInfoJson = movie.getMovieData(movieTitle); //parse json and extract necessary information
+                response = movie.getResponseViaApi(movieInfoJson); //checks if the entered title was valid
+            }
+
             String title = movie.getTitleViaApi(movieInfoJson); //calls the gettitle function from movie class
 
             String imdbVotes = movie.getFullImdbVotesViaApi(movieInfoJson); //calls the getfullimdbvotes function from movie class
