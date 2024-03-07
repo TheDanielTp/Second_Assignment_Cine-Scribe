@@ -11,18 +11,18 @@ import org.json.JSONArray;
 public class Movie
 {
     public static final String API_KEY = "520cf7ab"; //api key received from omdbapi
-    String ImdbVotes;
+    int ImdbVotes;
     ArrayList<String> actorsList;
     String rating;
     String[] ratings;
 
-    public Movie(ArrayList<String> actorsList, String rating, String ImdbVotes) { //constructor function for initializing the object
+    public Movie(ArrayList<String> actorsList, String rating, int ImdbVotes) { //constructor function for initializing the object
         this.actorsList = actorsList;
         this.rating = rating; //inputs a single string
         this.ImdbVotes = ImdbVotes;
     }
 
-    public Movie(ArrayList<String> actorsList, String[] ratings, String ImdbVotes) { //constructor function for finalizing the object
+    public Movie(ArrayList<String> actorsList, String[] ratings, int ImdbVotes) { //constructor function for finalizing the object
         this.actorsList = actorsList;
         this.ratings = ratings; //inputs an array of strings
         this.ImdbVotes = ImdbVotes;
