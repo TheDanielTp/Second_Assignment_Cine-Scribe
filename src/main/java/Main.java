@@ -7,7 +7,7 @@ public class Main
 {
     public static void main(String[] args)
     {
-        runMenu(); //directly attends to runmenu function
+        runMenu(); //directly attends to the runmenu function
     }
 
     public static void runMenu()
