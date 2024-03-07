@@ -39,25 +39,41 @@ public class Movie
         URL url = new URL("https://www.omdbapi.com/?t=" + title + "&apikey=" + API_KEY); //constructs a url to the movie information api
         URLConnection Url = url.openConnection(); //opens a connection to the url created using the movie title and the api
 
-        //the following line was edited due to having a small mistake
-        Url.setRequestProperty("apikey", API_KEY); //sets the authorization request property of the url connection
+        try {
+            //the following line was edited due to having a small mistake
+            Url.setRequestProperty("apikey", API_KEY); //sets the authorization request property of the url connection
 
-        BufferedReader reader = new BufferedReader(new InputStreamReader(Url.getInputStream())); //creates a reader to read the input stream from the url connection
+            BufferedReader reader = new BufferedReader(new InputStreamReader(Url.getInputStream())); //creates a reader to read the input stream from the url connection
 
-        String line; //declares a string variable "line" to store each line of the response
-        StringBuilder stringBuilder = new StringBuilder(); //creates a stringbuilder to efficiently concatenate the lines of the response
+            String line; //declares a string variable "line" to store each line of the response
+            StringBuilder stringBuilder = new StringBuilder(); //creates a stringbuilder to efficiently concatenate the lines of the response
 
-        while ((line = reader.readLine()) != null) { //reads each line of the response and appends it to the stringbuilder
-            stringBuilder.append(line);
+            while ((line = reader.readLine()) != null) { //reads each line of the response and appends it to the stringbuilder
+                stringBuilder.append(line);
+            }
+            reader.close(); //closes the reader once all lines have been read
+
+            String response = stringBuilder.toString(); //converts the stringbuilder to a string and assigns it to response
+            return response;
         }
-        reader.close(); //closes the reader once all lines have been read
-
-        String response = stringBuilder.toString(); //converts the stringbuilder to a string and assigns it to response
-
-        if (response.contains("False")) { //check if the response contains an error message
-            return "Error: Movie not found.";
+        catch (IOException e) {
+            e.printStackTrace();
+            return null;
         }
-        return response;
+    }
+
+    public String getResponseViaApi(String movieInfoJson)
+    {
+        JSONObject responseJsonObject = new JSONObject(movieInfoJson); //parses the json string into a json object
+        String response = responseJsonObject.getString("Response"); //creates a string and gets the content of response field
+
+        try { //return the response string
+            return response;
+        }
+        catch (Exception e) {
+            System.err.println("Error: " + e.getMessage());
+        }
+        return null; //returns null if death field is not found
     }
 
     public String getTitleViaApi(String movieInfoJson)
