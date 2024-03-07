@@ -134,9 +134,9 @@ public class Actors
         return null; //returns null if death field is not found
     }
 
-    public String getOccupationsViaApi(String movieInfoJson)
+    public String getOccupationsViaApi(String actorInfoJson)
     {
-        JSONObject occupationsJsonObject = new JSONObject(movieInfoJson); //parses the json string into a json object
+        JSONObject occupationsJsonObject = new JSONObject(actorInfoJson); //parses the json string into a json object
 
         JSONArray occupationsArray = occupationsJsonObject.getJSONArray("occupation");
         String[] occupationsList = new String[occupationsArray.length()];
@@ -147,5 +147,33 @@ public class Actors
             occupationsList[i].replaceAll("_", " "); //replaces underline characters with space
         }
         return Arrays.toString(occupationsList); //converts the array to string and returns it
+    }
+
+    public String getBirthdayViaApi(String actorsInfoJson)
+    {
+        JSONObject birthdayJsonObject = new JSONObject(actorsInfoJson); //parses the json string into a json object
+        String birthday = birthdayJsonObject.getString("birthday"); //creates a string and gets the content of birthday field
+
+        try { //return the birthday string
+            return birthday;
+        }
+        catch (Exception e) {
+            System.err.println("Error: " + e.getMessage());
+        }
+        return null; //returns null if death field is not found
+    }
+
+    public double getHeightViaApi(String actorsInfoJson)
+    {
+        JSONObject heightJsonObject = new JSONObject(actorsInfoJson); //parses the json string into a json object
+        double height = heightJsonObject.getDouble("height"); //creates a string and gets the content of height field
+
+        try { //return the height string
+            return height;
+        }
+        catch (Exception e) {
+            System.err.println("Error: " + e.getMessage());
+        }
+        return 0; //returns 0 if death field is not found
     }
 }
