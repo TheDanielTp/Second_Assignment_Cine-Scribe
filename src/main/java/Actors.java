@@ -5,6 +5,8 @@ import java.net.URL;
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Scanner;
+
 import org.json.JSONObject;
 import org.json.JSONArray;
 
@@ -46,6 +48,8 @@ public class Actors
 
     public String getActorData(String name)
     {
+        Scanner scanner = new Scanner(System.in); //defines a scanner to recieve inputs from user
+
         try {
             URL url = new URL("https://api.api-ninjas.com/v1/celebrity?name=" + name.replace(" ", "+") + "&apikey=" + API_KEY);
 
@@ -61,6 +65,16 @@ public class Actors
                     stringBuilder.append(line);
             }
             reader.close(); //closes the reader once all lines have been read
+
+            String tempResponse = stringBuilder.toString(); //converts the stringbuilder to a temporary string to check if its empty
+
+            if (tempResponse.contains("[]")) { //if the string of the json information is empty, asks the user to input a new name
+                System.err.print("Error: Invalid name. Enter the name of the actor again: ");
+
+                name = scanner.nextLine();
+                String actorsInfoJson = getActorData(name); //recall the function
+                return actorsInfoJson;
+            }
 
             stringBuilder.deleteCharAt(0);
             stringBuilder.deleteCharAt(stringBuilder.length() - 1);
