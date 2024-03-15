@@ -1,56 +1,135 @@
-# Project Title
+# Cinema Info Finder
 
-Simple overview of use/purpose.
+- This project is a Java application designed to provide information about movies and actors.
 
-## Description
+It fetches data from external APIs to retrieve details such as movie plot, ratings, actors, director, box office, net worth of actors, etc.
 
-An in-depth paragraph about your project and overview of use.
+## Description 
+- The Movie and Actors Info System is a Java-based application designed to provide users with comprehensive information about movies and actors.
+
+It utilizes external APIs such as OMDB API for movie data and API Ninjas for actor information.
+The program consists of three main classes: Movie, Actors, and Main.
+
+- The Movie class handles movie-related functionalities.
+
+This class allows users to search for details about movies including:<br>
+title, release year, runtime, genre, director, writer, actors, plot, country, language, ratings, IMDb votes, and box office information.
+
+- The Actors class is responsible for actor-related functionalities.
+
+This class allows users to search for actors and retrieve information such as:<br>
+net worth, nationality, occupations, height, birthday, and date of death (if applicable).
+
+- The system enhances user experience by handling invalid inputs gracefully, prompting users to re-enter valid information.
 
 ## Getting Started
 
 ### Dependencies
 
-* Describe any prerequisites, libraries, OS version, etc., needed before installing program.
-* ex. Windows 10
+- Java Development Kit (JDK) installed on your system.
+- Gradle installed on your system as a package manager.
 
 ### Installing
 
-* How/where to download your program
-* Any modifications needed to be made to files/folders
+- Clone or download the Java files from the repository.
 
 ### Executing program
 
-* How to run the program
-* Step-by-step bullets
+- Compile the Java files using the following command:
 ```
-code blocks for commands
+javac Main.java
 ```
+- Run the compiled program using the following command:
+```
+java Main
+```
+
 
 ## Help
 
-Any advise for common problems or issues.
-```
-command to run if program contains helper info
-```
+- Ensure a stable internet connection.
+- Verify the correctness of the movie or actor name entered.
 
 ## Authors
 
-Contributors names and contact info
-
-ex. Dominique Pizzie  
-ex. [@DomPizzie](https://twitter.com/dompizzie)
+Danial Taghipour
+ 
+Email: [prof.danial4@gmail.com](https://twitter.com/dompizzie)
 
 ## Version History
-
+* 0.6
+    * fixed some small bugs with test cases
+    * added error handling for invalid inputs
+* 0.5
+    * added get height function
+    * edited error handling function
+    * added get plot function
+    * some minor edits to other functions
+    * added get title function
+    * fixed some small bugs
+    * added get language function
+    * added get run time function
+    * display for new fields added
+    * added get box-office function
+    * added get writer function
+    * some minor edits to other functions
+    * added get director function
+    * fixed some minor bugs
+    * added get release date function
+    * added get genre function
+    * changed the display of imdb votes
+    * added get country function
+    * added get birthday function
+    * removed some small mistakes
+    * added a new get ratings function
+* 0.4
+    * actors api key added to the class
+    * completed get actor data function
+    * fixed some minor mistakes
+    * comments and explanations added
+    * completed get net-worth function
+    * error handling when actor's not found
+    * completed is alive function
+    * new constructor added for dead actors
+    * completed get date of death function
+    * added interface to run menu function
+    * completed main function
+    * added search for movie function
+    * added error handling when movie is not found
+    * comments and explanations added
+    * menu added with user inputs
+    * added search for actor function
+    * added error handling when actor is not found
+    * exit option created
+    * handling when user inputs invalid character
+    * fixed some minor mistakes
+    * added another get rating function to manage test cases
+    * some minor edits to other functions
+    * some comments and explanations added
+    * added a bonus get nationality function
+    * constructor added to manage nationality
+    * some minor edits to other functions
+    * added a bonus get occupations function
+    * constructor added to manage occupations
+    * some comments and explanations added
+    * fixed constructor inputs to include nationality
+* 0.3
+    * completed get imdb votes function
+    * new constructor added for strings array
+    * completed get ratings function
+    * some minor edits to other functions
+    * completed get actors list function
 * 0.2
-    * Various bug fixes and optimizations
-    * See [commit change]() or See [release history]()
+    * movie api key added to the class
+    * fixed some minor mistakes
+    * some comments and explanations added
+    * error handling when movie's not found
 * 0.1
-    * Initial Release
+    * initial release
 
 ## License
 
-This project is licensed under the [NAME HERE] License - see the LICENSE.md file for details
+This project is licensed under the [MIT](https://opensource.org/licenses/MIT) License. See the LICENSE file for details.
 
 ## Acknowledgments
 
